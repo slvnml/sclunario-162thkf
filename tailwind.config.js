@@ -11,8 +11,14 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                'noir': '#2c2c2c',
+                'noir-light': '#383838',
+                'rose': '#ff3366',
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                serif: ['Playfair Display', 'serif'],
             },
         },
     },

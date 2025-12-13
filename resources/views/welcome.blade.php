@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOIR - Fashion Forward</title>
+    <title>Mayari - Menstrual Health App</title>
     <link rel="stylesheet" href="templatemo-noir-fashion.css">
 <!-- 
 TemplateMo 599 Noir Fashion
@@ -24,11 +24,9 @@ https://templatemo.com/tm-599-noir-fashion
                     <polygon points="50,10 20,50 50,90 80,50" fill="none" stroke="url(#logoGrad)" stroke-width="3"/>
                     <circle cx="50" cy="50" r="5" fill="url(#logoGrad)"/>
                 </svg>
-                <span class="logo-text">NOIR</span>
+                <span class="logo-text">Mayari</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
                 <li>  @if (Route::has('login'))
                             @auth
         <a
@@ -55,7 +53,6 @@ https://templatemo.com/tm-599-noir-fashion
         @endif
     @endauth
                         @endif</li>
-                <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
                 <span></span>
@@ -68,9 +65,9 @@ https://templatemo.com/tm-599-noir-fashion
     <div class="mobile-nav" id="mobileNav">
         <ul class="mobile-nav-links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#collections">Collections</a></li>
-            <li><a href="#featured">Featured</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/health-records">Health Records</a></li>
+            <li><a href="/doctor-directory">Doctor Directory</a></li>
+            <li><a href="/health-wellness">Health & Wellness</a></li>
         </ul>
     </div>
 
@@ -78,46 +75,45 @@ https://templatemo.com/tm-599-noir-fashion
         <div class="hero-bg"></div>
         <div class="hero-container">
             <div class="hero-left">
-                <div class="hero-badge">New Collection 2025</div>
+                <div class="hero-badge">Your Empowering Filipina Menstrual Health Companion</div>
                 <h1 class="hero-title">
-                    <span class="line"><span>Redefine</span></span>
-                    <span class="line"><span>Your <span class="accent">Style</span></span></span>
-                    <span class="line"><span>Revolution</span></span>
+                    <span class="line"><span>Embrace,</span></span>
+                    <span class="line"><span>Empower,</span></span>
+                    <span class="line"><span>Thrive.</span></span>
                 </h1>
                 <p class="hero-description">
-                    Discover our avant-garde collection where high fashion meets street culture. 
-                    Each piece tells a story of rebellion, elegance, and innovation.
+                    Mayari is your empowering companion for menstrual health, celebrating the strength of every Filipina. Track your cycle, understand your body, and connect with a supportive community of local doctors and resources. Embrace your beautiful journey with us.
                 </p>
                 <div class="hero-stats">
                     <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Filipinas Joined</span>
+                    </div>
+                    <div class="stat">
                         <span class="stat-number">500+</span>
-                        <span class="stat-label">Exclusive Pieces</span>
+                        <span class="stat-label">Local Doctors</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">48H</span>
-                        <span class="stat-label">Fast Delivery</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">Sustainable</span>
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Health Articles</span>
                     </div>
                 </div>
                 <div class="cta-group">
-                    <a href="#collections" class="cta-button primary">Explore Collection</a>
-                    <a href="#featured" class="cta-button outline">Watch Runway</a>
+                    <a href="/register" class="cta-button primary">Get Started</a>
+                    <a href="/login" class="cta-button outline">Log In</a>
                 </div>
             </div>
             <div class="hero-right">
                 <div class="hero-image-wrapper">
                     <div class="hero-carousel">
                         <div class="carousel-slide active">
-                            <img src="images/noir-fashion-hero-01.avif" alt="Fashion Model 1">
+                            <img src="images/filipina-smiling.avif" alt="Menstrual Health 1">
                         </div>
                         <div class="carousel-slide">
-                            <img src="images/noir-fashion-hero-02.avif" alt="Fashion Model 2">
+                            <img src="images/a-group-of-women.avif" alt="Menstrual Health 2">
                         </div>
                         <div class="carousel-slide">
-                            <img src="images/noir-fashion-hero-03.avif" alt="Fashion Model 3">
+                            <img src="images/women-having-fun.avif" alt="Menstrual Health 3">
                         </div>
                         <div class="carousel-overlay"></div>
                         <div class="carousel-indicators">
@@ -127,9 +123,9 @@ https://templatemo.com/tm-599-noir-fashion
                         </div>
                     </div>
                     <div class="floating-tags">
-                        <div class="tag">Limited Edition</div>
-                        <div class="tag">Handcrafted</div>
-                        <div class="tag">Premium Quality</div>
+                        <div class="tag">Track Your Cycle</div>
+                        <div class="tag">Monitor Your Mood</div>
+                        <div class="tag">Connect with Doctors</div>
                     </div>
                 </div>
             </div>
@@ -141,336 +137,77 @@ https://templatemo.com/tm-599-noir-fashion
 
     <section class="collections" id="collections">
         <div class="section-header">
-            <h2 class="section-title">Latest Collections</h2>
-            <p class="section-subtitle">Discover our curated selection</p>
+            <h2 class="section-title">Features</h2>
+            <p class="section-subtitle">Everything you need for your menstrual health</p>
         </div>
         
-        <div class="category-tabs">
-            <button class="tab-btn active" data-category="all">All</button>
-            <button class="tab-btn" data-category="women">Women</button>
-            <button class="tab-btn" data-category="men">Men</button>
-            <button class="tab-btn" data-category="accessories">Accessories</button>
-            <button class="tab-btn" data-category="limited">Limited Edition</button>
-        </div>
-
         <div class="grid" id="collectionsGrid">
-            <div class="collection-card" data-category="women">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/urban-edge.avif" alt="Urban Edge Women's Collection">
+                    <img src="images/pink-calendar.avif" alt="Cycle Tracker">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">New Arrival</span>
-                    <h3 class="card-title">Urban Edge</h3>
-                    <p class="card-subtitle">Women's Collection</p>
-                    <p class="card-price">From $299</p>
+                    <h3 class="card-title">Cycle Tracker</h3>
+                    <p class="card-subtitle">Log your period, symptoms, and more.</p>
                 </div>
             </div>
-            <div class="collection-card" data-category="limited">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/midnight-luxe.avif" alt="Midnight Luxe Limited Edition">
+                    <img src="images/woman-menstruating.avif" alt="Mood Tracker">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">Limited</span>
-                    <h3 class="card-title">Midnight Luxe</h3>
-                    <p class="card-subtitle">Exclusive Drop</p>
-                    <p class="card-price">From $899</p>
+                    <h3 class="card-title">Mood Tracker</h3>
+                    <p class="card-subtitle">Monitor your emotional well-being.</p>
                 </div>
             </div>
-            <div class="collection-card" data-category="men">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/neo-classic.avif" alt="Neo Classic Men's Essentials">
+                    <img src="images/weight-scale.avif" alt="Weight & Height Tracker">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">Bestseller</span>
-                    <h3 class="card-title">Neo Classic</h3>
-                    <p class="card-subtitle">Men's Essentials</p>
-                    <p class="card-price">From $399</p>
+                    <h3 class="card-title">Weight & Height Tracker</h3>
+                    <p class="card-subtitle">Keep track of your physical health.</p>
                 </div>
             </div>
-            <div class="collection-card" data-category="accessories">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/accent-pieces.avif" alt="Accent Pieces Accessories">
+                    <img src="images/women-doctor.avif" alt="Doctor Directory">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">Trending</span>
-                    <h3 class="card-title">Accent Pieces</h3>
-                    <p class="card-subtitle">Accessories</p>
-                    <p class="card-price">From $149</p>
+                    <h3 class="card-title">Doctor Directory</h3>
+                    <p class="card-subtitle">Find local OB-GYNs near you.</p>
                 </div>
             </div>
-            <div class="collection-card" data-category="women">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/spring-bloom.avif" alt="Spring Bloom Women's Spring">
+                    <img src="images/healthy-food.avif" alt="Health & Wellness Articles">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">Pre-Order</span>
-                    <h3 class="card-title">Spring Bloom</h3>
-                    <p class="card-subtitle">Women's Spring</p>
-                    <p class="card-price">From $249</p>
+                    <h3 class="card-title">Health & Wellness</h3>
+                    <p class="card-subtitle">Read localized articles on menstrual health.</p>
                 </div>
             </div>
-            <div class="collection-card" data-category="men">
+            <div class="collection-card">
                 <div class="collection-thumbnail">
-                    <img src="images/street-rebel.avif" alt="Street Rebel Men's Streetwear">
+                    <img src="images/period-clock.avif" alt="Irregularity Alerts">
                 </div>
                 <div class="card-content">
-                    <span class="card-badge">Hot</span>
-                    <h3 class="card-title">Street Rebel</h3>
-                    <p class="card-subtitle">Men's Streetwear</p>
-                    <p class="card-price">From $199</p>
-                </div>
-            </div>
-            <div class="collection-card" data-category="limited">
-                <div class="collection-thumbnail">
-                    <img src="images/avant-garde.avif" alt="Avant Garde Art Meets Fashion">
-                </div>
-                <div class="card-content">
-                    <span class="card-badge">Exclusive</span>
-                    <h3 class="card-title">Avant Garde</h3>
-                    <p class="card-subtitle">Art Meets Fashion</p>
-                    <p class="card-price">From $1,299</p>
-                </div>
-            </div>
-            <div class="collection-card" data-category="accessories">
-                <div class="collection-thumbnail">
-                    <img src="images/minimal-chic.avif" alt="Minimal Chic Timeless Accessories">
-                </div>
-                <div class="card-content">
-                    <span class="card-badge">Essentials</span>
-                    <h3 class="card-title">Minimal Chic</h3>
-                    <p class="card-subtitle">Timeless Accessories</p>
-                    <p class="card-price">From $89</p>
+                    <h3 class="card-title">Irregularity Alerts</h3>
+                    <p class="card-subtitle">Get notified of any irregularities.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="featured" id="featured">
-        <div class="featured-container">
-            <div class="featured-hero">
-                <div class="featured-content">
-                    <span class="label">Crafted with Passion</span>
-                    <h2>The Art of Fashion</h2>
-                    <p>Where tradition meets innovation. Our master craftsmen blend centuries-old techniques with cutting-edge design to create pieces that transcend time and trends. This template is proudly crafted by TemplateMo, featuring beautiful imagery from Unsplash.</p>
-                    
-                    <div class="feature-highlights">
-                        <div class="highlight-item">
-                            <div class="highlight-icon">👑</div>
-                            <div class="highlight-title">Premium Quality</div>
-                            <div class="highlight-desc">Only the finest materials and fabrics make it into our collections</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-icon">🌱</div>
-                            <div class="highlight-title">Sustainable</div>
-                            <div class="highlight-desc">Ethically sourced materials with carbon-neutral production</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-icon">✨</div>
-                            <div class="highlight-title">Handcrafted</div>
-                            <div class="highlight-desc">Each piece is carefully crafted by skilled artisans</div>
-                        </div>
-                    </div>
-                    
-                    <a href="#collections" class="feature-cta">Discover Our Craft</a>
-                </div>
-                
-                <div class="featured-image-section">
-                    <div class="featured-image-grid">
-                        <div class="featured-img">
-                            <img src="images/art-of-fashion-01.avif" alt="Fashion Collection Showcase">
-                        </div>
-                        <div class="featured-img">
-                            <img src="images/art-of-fashion-02.avif" alt="Luxury Fashion Details">
-                        </div>
-                        <div class="featured-img">
-                            <img src="images/art-of-fashion-03.avif" alt="Artisan Craftsmanship">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="testimonials">
-                <div class="testimonials-header">
-                    <h3>What Our Customers Say</h3>
-                    <p class="section-subtitle">Real stories from fashion enthusiasts</p>
-                </div>
-                
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">★★★★★</div>
-                        <div class="testimonial-quote">
-                            "NOIR has completely transformed my wardrobe. The quality and attention to detail is unmatched. Every piece feels like a work of art."
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">S</div>
-                            <div class="author-info">
-                                <h4>Sarah Chen</h4>
-                                <p>Fashion Blogger</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">★★★★★</div>
-                        <div class="testimonial-quote">
-                            "The sustainable approach combined with luxury design is exactly what I was looking for. NOIR proves you don't have to compromise."
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">M</div>
-                            <div class="author-info">
-                                <h4>Marcus Rodriguez</h4>
-                                <p>Creative Director</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">★★★★★</div>
-                        <div class="testimonial-quote">
-                            "I've been a customer for three years now, and each collection keeps exceeding my expectations. The fit and quality are consistently outstanding."
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">A</div>
-                            <div class="author-info">
-                                <h4>Alexandra Kim</h4>
-                                <p>Entrepreneur</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact" id="contact">
-        <div class="contact-container">
-            <div class="contact-header">
-                <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">We'd love to hear from you</p>
-            </div>
-            
-            <div class="contact-content">
-                <div class="contact-form-wrapper">
-                    <form id="contactForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" id="firstName" name="firstName" placeholder="John" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" placeholder="How can we help?" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" placeholder="Tell us more about your inquiry..." required></textarea>
-                        </div>
-                        <button type="submit" class="form-submit">Send Message</button>
-                    </form>
-                </div>
-                
-                <div class="contact-info">
-                    <div class="info-item">
-                        <div class="info-icon">📍</div>
-                        <div class="info-content">
-                            <h3>Visit Our Flagship Store</h3>
-                            <p>123 Fashion Avenue<br>
-                            Bangkok, Thailand 10110<br>
-                            Siam District</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">📞</div>
-                        <div class="info-content">
-                            <h3>Call Us</h3>
-                            <p>Main: <a href="tel:+66021234567">+66 02 123 4567</a><br>
-                            Support: <a href="tel:+66021234568">+66 02 123 4568</a><br>
-                            Mon-Fri, 9AM-6PM ICT</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <div class="info-icon">✉️</div>
-                        <div class="info-content">
-                            <h3>Email Us</h3>
-                            <p>General: <a href="mailto:hello@noir.fashion">hello@noir.fashion</a><br>
-                            Support: <a href="mailto:support@noir.fashion">support@noir.fashion</a><br>
-                            Press: <a href="mailto:press@noir.fashion">press@noir.fashion</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="map-section">
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.551370220076!2d100.53515!3d13.730314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2993fa2f8c6d9%3A0x92cf0e47c4c2ed08!2sSilom%20MRT%20Station!5e0!3m2!1sen!2sth!4v1697000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <h3>NOIR</h3>
-                <p>Redefining fashion with bold designs, sustainable practices, and uncompromising quality. Join us in creating the future of style.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link">f</a>
-                    <a href="#" class="social-link">t</a>
-                    <a href="#" class="social-link">i</a>
-                    <a href="#" class="social-link">p</a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h4>Shop</h4>
-                <ul>
-                    <li><a href="#">New Arrivals</a></li>
-                    <li><a href="#">Women</a></li>
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li><a href="#">Sale</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Size Guide</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
+                <h3>Mayari</h3>
+                <p>Your localized Filipino menstrual health companion.</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 NOIR. All rights reserved. | Designed by <a href="https://templatemo.com" target="_blank" rel="nofollow" style="color: var(--accent); text-decoration: none;">TemplateMo</a></p>
-            <div class="payment-methods">
-                <div class="payment-icon">VISA</div>
-                <div class="payment-icon">MC</div>
-                <div class="payment-icon">AMEX</div>
-                <div class="payment-icon">PAY</div>
-            </div>
+            <p>&copy; 2025 Mayari. All rights reserved. | Designed by <a href="https://templatemo.com" target="_blank" rel="nofollow" style="color: var(--accent); text-decoration: none;">TemplateMo</a></p>
         </div>
     </footer>
 

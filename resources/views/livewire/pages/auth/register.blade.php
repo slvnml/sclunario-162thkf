@@ -20,58 +20,55 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        // $validated = $this->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        //     'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+        // ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        // $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered($user = User::create($validated)));
+        // event(new Registered($user = User::create($validated)));
 
-        Auth::login($user);
+        // Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 
-<div>
+<div class="form-container">
+    <h1 class="form-title">Register</h1>
     <form wire:submit="register">
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
+            <label for="name" class="form-label">{{ __('Name') }}</label>
+            <x-text-input wire:model="name" id="name" class="form-input" type="text" name="name" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
+            <label for="email" class="form-label">{{ __('Email') }}</label>
+            <x-text-input wire:model="email" id="email" class="form-input" type="email" name="email" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
+            <label for="password" class="form-label">{{ __('Password') }}</label>
+            <x-text-input wire:model="password" id="password" class="form-input"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
+            <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="form-input"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
@@ -80,7 +77,7 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button class="cta-button ms-4">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
