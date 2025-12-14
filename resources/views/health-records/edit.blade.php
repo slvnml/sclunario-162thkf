@@ -14,15 +14,10 @@
                         @csrf
                         @method('PUT')
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Cycle -->
+                            <!-- Date -->
                             <div>
-                                <label for="cycle" class="block text-lg font-medium text-gray-700">Menstrual Cycle</label>
-                                <select name="cycle" id="cycle" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
-                                    <option value="Menstruation" {{ $healthRecord->cycle == 'Menstruation' ? 'selected' : '' }}>Menstruation</option>
-                                    <option value="Follicular Phase" {{ $healthRecord->cycle == 'Follicular Phase' ? 'selected' : '' }}>Follicular Phase</option>
-                                    <option value="Ovulation" {{ $healthRecord->cycle == 'Ovulation' ? 'selected' : '' }}>Ovulation</option>
-                                    <option value="Luteal Phase" {{ $healthRecord->cycle == 'Luteal Phase' ? 'selected' : '' }}>Luteal Phase</option>
-                                </select>
+                                <label for="date" class="block text-lg font-medium text-gray-700">Date</label>
+                                <input type="date" name="date" id="date" value="{{ $healthRecord->date }}" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
                             </div>
 
                             <!-- Mood -->
@@ -46,7 +41,7 @@
                             <!-- Height -->
                             <div>
                                 <label for="height" class="block text-lg font-medium text-gray-700">Height (cm)</label>
-                                <input type="number" name="height" id="height" value="{{ $healthRecord->height }}" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., 160">
+                                <input type="number" name="height" id="height" value="{{ $healthRecord->height }}" class="mt-1 block w-full p-3 border border-ray-300 rounded-lg" placeholder="e.g., 160">
                             </div>
                         </div>
 

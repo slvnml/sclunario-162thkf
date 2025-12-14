@@ -30,7 +30,7 @@ class HealthRecordController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cycle' => 'required',
+            'date' => 'required|date',
             'mood' => 'required',
             'weight' => 'required|numeric',
             'height' => 'required|numeric',
@@ -64,7 +64,7 @@ class HealthRecordController extends Controller
     public function update(Request $request, HealthRecord $healthRecord)
     {
         $request->validate([
-            'cycle' => 'required',
+            'date' => 'required|date',
             'mood' => 'required',
             'weight' => 'required|numeric',
             'height' => 'required|numeric',

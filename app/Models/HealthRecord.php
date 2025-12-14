@@ -15,7 +15,7 @@ class HealthRecord extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'cycle',
+        'date',
         'mood',
         'weight',
         'height',

@@ -13,16 +13,10 @@
                     <form action="{{ route('health-records.store') }}" method="POST">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Cycle -->
+                            <!-- Date -->
                             <div>
-                                <label for="cycle" class="block text-lg font-medium text-gray-700">Menstrual Cycle</label>
-                                <select name="cycle" id="cycle" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
-                                    <option value="" disabled selected>Select your cycle phase</option>
-                                    <option value="Menstruation">Menstruation</option>
-                                    <option value="Follicular Phase">Follicular Phase</option>
-                                    <option value="Ovulation">Ovulation</option>
-                                    <option value="Luteal Phase">Luteal Phase</option>
-                                </select>
+                                <label for="date" class="block text-lg font-medium text-gray-700">Date</label>
+                                <input type="date" name="date" id="date" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
                             </div>
 
                             <!-- Mood -->
