@@ -43,6 +43,16 @@
                                 <label for="height" class="block text-lg font-medium text-gray-700">Height (cm)</label>
                                 <input type="number" name="height" id="height" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., 160">
                             </div>
+
+                            <!-- Is Cycle Start -->
+                            <div class="col-span-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="is_cycle_start" id="is_cycle_start" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label for="is_cycle_start" class="ml-2 block text-sm text-gray-900">
+                                        Mark this as the start of a new menstrual cycle
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mt-8 flex justify-end">

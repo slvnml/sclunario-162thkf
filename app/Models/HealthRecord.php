@@ -19,5 +19,17 @@ class HealthRecord extends Model
         'mood',
         'weight',
         'height',
+        'is_cycle_start',
+        'user_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'date' => 'datetime',
+        'is_cycle_start' => 'boolean',
     ];
 }
