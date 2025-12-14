@@ -23,6 +23,29 @@
                         </div>
                     @endif
 
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-pink-100 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-pink-800">Most Recent Period</h4>
+                            @if ($lastCycleStartDate)
+                                <p class="text-pink-700 text-sm">{{ $lastCycleStartDate->format('F d, Y') }} - {{ $lastPeriodEndDate->format('F d, Y') }}</p>
+                            @else
+                                <p class="text-gray-500">Not enough data to predict.</p>
+                            @endif
+                        </div>
+                        <div class="bg-purple-100 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-purple-800">Next Predicted Period</h4>
+                            @if ($nextPeriodStartDate)
+                                <p class="text-purple-700 text-sm">{{ $nextPeriodStartDate->format('F d, Y') }}</p>
+                            @else
+                                <p class="text-gray-500">Not enough data to predict.</p>
+                            @endif
+                        </div>
+                        <div class="bg-indigo-100 p-6 rounded-lg">
+                            <h4 class="text-lg font-semibold text-indigo-800">Average Cycle Length</h4>
+                            <p class="text-indigo-700 text-sm">{{ is_numeric($averageCycle) ? $averageCycle . ' days' : $averageCycle }}</p>
+                        </div>
+                    </div>
+
                     <div id='calendar' class="mb-8"></div>
 
                     <div class="overflow-x-auto">

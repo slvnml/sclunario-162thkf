@@ -18,7 +18,26 @@ class HealthRecordController extends Controller
         $chartData = $this->prepareChartData($healthRecords);
         $averageCycle = $this->calculateAverageCycle($healthRecords);
 
-        return view('health-records.index', compact('healthRecords', 'chartData', 'averageCycle'));
+        $lastCycleStartDate = null;
+        $lastPeriodEndDate = null;
+        $nextPeriodStartDate = null;
+
+        $lastCycleStartDateRecord = $healthRecords->where('is_cycle_start', true)->sortByDesc('date')->first();
+
+        if ($lastCycleStartDateRecord) {
+            $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
+            $lastPeriodEndDate = $lastCycleStartDate->copy()->addDays(4);
+            $nextPeriodStartDate = $lastPeriodEndDate->copy()->addDays(28);
+        }
+
+        return view('health-records.index', compact(
+            'healthRecords', 
+            'chartData', 
+            'averageCycle',
+            'lastCycleStartDate',
+            'lastPeriodEndDate',
+            'nextPeriodStartDate'
+        ));
     }
 
     /**
@@ -26,7 +45,21 @@ class HealthRecordController extends Controller
      */
     public function create()
     {
-        return view('health-records.create');
+        $lastCycleStartDateRecord = HealthRecord::where('user_id', Auth::id())
+            ->where('is_cycle_start', true)
+            ->orderBy('date', 'desc')
+            ->first();
+
+        $can_start_new_cycle = true;
+        if ($lastCycleStartDateRecord) {
+            $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
+            // A new cycle can't be started if the last one was within the last 5 days.
+            if ($lastCycleStartDate->diffInDays(Carbon::now()) <= 4) {
+                $can_start_new_cycle = false;
+            }
+        }
+
+        return view('health-records.create', compact('can_start_new_cycle'));
     }
 
     /**
@@ -117,7 +150,7 @@ class HealthRecordController extends Controller
             ->with('success', 'Health record deleted successfully.');
     }
 
-    /**
+     /**
      * Prepare data for the calendar view.
      */
     public function calendarEvents(Request $request)
@@ -150,9 +183,12 @@ class HealthRecordController extends Controller
         }
 
         // Predict next cycle
-        $lastCycleStartDate = $healthRecords->where('is_cycle_start', true)->sortByDesc('date')->first();
-        if ($lastCycleStartDate) {
-            $predictedNextStartDate = Carbon::parse($lastCycleStartDate->date)->addDays(4)->addDays(28);
+        $lastCycleStartDateRecord = $healthRecords->where('is_cycle_start', true)->sortByDesc('date')->first();
+        if ($lastCycleStartDateRecord) {
+            $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
+            $lastPeriodEndDate = $lastCycleStartDate->copy()->addDays(4);
+            $predictedNextStartDate = $lastPeriodEndDate->copy()->addDays(28);
+
             for ($i = 0; $i < 5; $i++) {
                 $predictedDate = $predictedNextStartDate->copy()->addDays($i);
                 $backgroundEvents->push([
@@ -165,6 +201,7 @@ class HealthRecordController extends Controller
 
         return response()->json($events->concat($backgroundEvents));
     }
+
 
     /**
      * Prepare data for charts.
@@ -191,7 +228,7 @@ class HealthRecordController extends Controller
      */
     private function calculateAverageCycle($records)
     {
-        $cycleStartDates = $records->where('is_cycle_start', true)->pluck('date')->sort();
+        $cycleStartDates = $records->where('is_cycle_start', true)->pluck('date')->sort()->values();
         
         if ($cycleStartDates->count() < 2) {
             return 'Not enough data to calculate average cycle.';
@@ -199,7 +236,8 @@ class HealthRecordController extends Controller
 
         $cycleLengths = [];
         for ($i = 0; $i < $cycleStartDates->count() - 1; $i++) {
-            $cycleLengths[] = $cycleStartDates[$i]->diffInDays($cycleStartDates[$i+1]);
+            $previousPeriodEndDate = $cycleStartDates[$i]->copy()->addDays(4);
+            $cycleLengths[] = $previousPeriodEndDate->diffInDays($cycleStartDates[$i+1]);
         }
 
         return round(collect($cycleLengths)->avg());
