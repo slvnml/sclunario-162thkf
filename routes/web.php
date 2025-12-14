@@ -5,14 +5,26 @@ use App\Http\Controllers\HealthRecordController;
 use App\Http\Controllers\DoctorDirectoryController;
 use App\Http\Controllers\HealthAndWellnessController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'welcome');
 
 // Registration and Login Routes
-Route::get('register', [UserController::class, 'create'])->name('register');
+Route::get('register', function() {
+    if(Auth::check()){
+        return redirect('health-records');
+    }
+    return app(UserController::class)->create();
+})->name('register');
 Route::post('register', [UserController::class, 'store']);
-Route::get('login', [UserController::class, 'login'])->name('login');
+Route::get('login', function() {
+    if(Auth::check()){
+        return redirect('health-records');
+    }
+    return app(UserController::class)->login();
+})->name('login');
 Route::post('login', [UserController::class, 'authenticate']);
+
 
 // Health Records Routes
 Route::resource('health-records', HealthRecordController::class);
