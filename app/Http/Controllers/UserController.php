@@ -39,7 +39,7 @@ class UserController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/health-records');
     }
 
     public function login()
@@ -63,7 +63,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('health-records');
         }
 
         return back()->withErrors([

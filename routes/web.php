@@ -21,9 +21,6 @@ Route::get('calendar-events', [HealthRecordController::class, 'calendarEvents'])
 Route::get('/doctor-directory', [DoctorDirectoryController::class, 'index'])->name('doctor-directory');
 Route::get('/health-wellness', [HealthAndWellnessController::class, 'index'])->name('health-wellness');
 
-Route::view('dashboard', 'dashboard')
-    ->name('dashboard');
-
 Route::view('profile', 'profile')
     ->name('profile');
 
