@@ -12,9 +12,15 @@
 .app-body {
     background-color: var(--background-color);
     color: var(--text-color);
+    padding-top: 4rem;
 }
 
 .navbar-dark {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
     background-color: var(--background-color);
     border-bottom: 1px solid var(--primary-color);
 }
@@ -50,4 +56,12 @@
     font-size: 2rem;
     font-weight: 600;
     color: var(--secondary-color);
+}
+
+.navbar-dark .logo-text {
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, #fff, var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
