@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HealthRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class HealthRecordController extends Controller
 {
@@ -114,6 +115,55 @@ class HealthRecordController extends Controller
 
         return redirect()->route('health-records.index')
             ->with('success', 'Health record deleted successfully.');
+    }
+
+    /**
+     * Prepare data for the calendar view.
+     */
+    public function calendarEvents(Request $request)
+    {
+        $healthRecords = HealthRecord::where('user_id', Auth::id())->get();
+
+        $events = $healthRecords->map(function ($record) {
+            return [
+                'title' => $record->mood,
+                'start' => $record->date->format('Y-m-d'),
+                'extendedProps' => [
+                    'is_cycle_start' => $record->is_cycle_start,
+                ],
+            ];
+        });
+
+        $backgroundEvents = collect();
+        $cycleStartRecords = $healthRecords->where('is_cycle_start', true);
+
+        foreach ($cycleStartRecords as $record) {
+            $startDate = Carbon::parse($record->date);
+            for ($i = 0; $i < 5; $i++) {
+                $date = $startDate->copy()->addDays($i);
+                $backgroundEvents->push([
+                    'start' => $date->format('Y-m-d'),
+                    'display' => 'background',
+                    'backgroundColor' => '#ff3366',
+                ]);
+            }
+        }
+
+        // Predict next cycle
+        $lastCycleStartDate = $healthRecords->where('is_cycle_start', true)->sortByDesc('date')->first();
+        if ($lastCycleStartDate) {
+            $predictedNextStartDate = Carbon::parse($lastCycleStartDate->date)->addDays(4)->addDays(28);
+            for ($i = 0; $i < 5; $i++) {
+                $predictedDate = $predictedNextStartDate->copy()->addDays($i);
+                $backgroundEvents->push([
+                    'start' => $predictedDate->format('Y-m-d'),
+                    'display' => 'background',
+                    'backgroundColor' => 'violet',
+                ]);
+            }
+        }
+
+        return response()->json($events->concat($backgroundEvents));
     }
 
     /**

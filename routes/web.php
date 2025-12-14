@@ -16,6 +16,7 @@ Route::post('login', [UserController::class, 'authenticate']);
 
 // Health Records Routes
 Route::resource('health-records', HealthRecordController::class);
+Route::get('calendar-events', [HealthRecordController::class, 'calendarEvents'])->name('health-records.calendar-events');
 
 Route::get('/doctor-directory', [DoctorDirectoryController::class, 'index'])->name('doctor-directory');
 Route::get('/health-wellness', [HealthAndWellnessController::class, 'index'])->name('health-wellness');

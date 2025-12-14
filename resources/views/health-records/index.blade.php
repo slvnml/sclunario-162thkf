@@ -23,12 +23,14 @@
                         </div>
                     @endif
 
+                    <div id='calendar' class="mb-8"></div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cycle</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cycle Start</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mood</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Height</th>
@@ -38,8 +40,16 @@
                             <tbody class="divide-y divide-gray-200">
                                 @forelse ($healthRecords as $healthRecord)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->created_at->format('F d, Y') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->cycle }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->date->format('F d, Y') }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($healthRecord->is_cycle_start)
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-800">
+                                                    Yes
+                                                </span>
+                                            @else
+                                                <span class="text-gray-500">-</span>
+                                            @endif
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->mood }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->weight }} kg</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $healthRecord->height }} cm</td>
@@ -67,4 +77,22 @@
             </div>
         </div>
     </div>
+    @section('scripts')
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: '{{ route("health-records.calendar-events") }}'
+            });
+            calendar.render();
+        });
+    </script>
+    @endsection
 </x-app-layout>

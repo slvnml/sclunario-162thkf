@@ -14,8 +14,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        @yield('scripts')
     </head>
-    <body class="font-sans antialiased app-body">
+    <body class="font-sans antialiased app-body bg-white">
         <div class="min-h-screen">
             <livewire:layout.navigation />
 
@@ -33,5 +34,6 @@
                 {{ $slot }}
             </main>
         </div>
+        @stack('scripts')
     </body>
 </html>
