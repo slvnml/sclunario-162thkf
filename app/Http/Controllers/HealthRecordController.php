@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HealthRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HealthRecordController extends Controller
 {
@@ -12,8 +13,11 @@ class HealthRecordController extends Controller
      */
     public function index()
     {
-        $healthRecords = HealthRecord::all();
-        return view('health-records.index', compact('healthRecords'));
+        $healthRecords = HealthRecord::where('user_id', Auth::id())->orderBy('date', 'desc')->get();
+        $chartData = $this->prepareChartData($healthRecords);
+        $averageCycle = $this->calculateAverageCycle($healthRecords);
+
+        return view('health-records.index', compact('healthRecords', 'chartData', 'averageCycle'));
     }
 
     /**
@@ -32,11 +36,15 @@ class HealthRecordController extends Controller
         $request->validate([
             'date' => 'required|date',
             'mood' => 'required',
-            'weight' => 'required|numeric',
-            'height' => 'required|numeric',
+            'weight' => 'nullable|numeric',
+            'height' => 'nullable|numeric',
+            'is_cycle_start' => 'sometimes|boolean',
         ]);
 
-        HealthRecord::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+
+        HealthRecord::create($data);
 
         return redirect()->route('health-records.index')
             ->with('success', 'Health record created successfully.');
@@ -47,6 +55,11 @@ class HealthRecordController extends Controller
      */
     public function show(HealthRecord $healthRecord)
     {
+        // Ensure the user can only see their own records
+        if ($healthRecord->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('health-records.show', compact('healthRecord'));
     }
 
@@ -55,6 +68,11 @@ class HealthRecordController extends Controller
      */
     public function edit(HealthRecord $healthRecord)
     {
+        // Ensure the user can only edit their own records
+        if ($healthRecord->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('health-records.edit', compact('healthRecord'));
     }
 
@@ -63,11 +81,17 @@ class HealthRecordController extends Controller
      */
     public function update(Request $request, HealthRecord $healthRecord)
     {
+        // Ensure the user can only update their own records
+        if ($healthRecord->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $request->validate([
             'date' => 'required|date',
             'mood' => 'required',
-            'weight' => 'required|numeric',
-            'height' => 'required|numeric',
+            'weight' => 'nullable|numeric',
+            'height' => 'nullable|numeric',
+            'is_cycle_start' => 'sometimes|boolean',
         ]);
 
         $healthRecord->update($request->all());
@@ -81,9 +105,53 @@ class HealthRecordController extends Controller
      */
     public function destroy(HealthRecord $healthRecord)
     {
+        // Ensure the user can only delete their own records
+        if ($healthRecord->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $healthRecord->delete();
 
         return redirect()->route('health-records.index')
             ->with('success', 'Health record deleted successfully.');
+    }
+
+    /**
+     * Prepare data for charts.
+     */
+    private function prepareChartData($records)
+    {
+        $labels = $records->pluck('date')->map(function ($date) {
+            return $date->format('M d');
+        });
+        $moodData = $records->pluck('mood');
+        $weightData = $records->pluck('weight');
+        $heightData = $records->pluck('height');
+
+        return [
+            'labels' => $labels->reverse(),
+            'moodData' => $moodData->reverse(),
+            'weightData' => $weightData->reverse(),
+            'heightData' => $heightData->reverse(),
+        ];
+    }
+
+    /**
+     * Calculate average cycle length.
+     */
+    private function calculateAverageCycle($records)
+    {
+        $cycleStartDates = $records->where('is_cycle_start', true)->pluck('date')->sort();
+        
+        if ($cycleStartDates->count() < 2) {
+            return 'Not enough data to calculate average cycle.';
+        }
+
+        $cycleLengths = [];
+        for ($i = 0; $i < $cycleStartDates->count() - 1; $i++) {
+            $cycleLengths[] = $cycleStartDates[$i]->diffInDays($cycleStartDates[$i+1]);
+        }
+
+        return round(collect($cycleLengths)->avg());
     }
 }

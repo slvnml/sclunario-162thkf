@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('mood');
             $table->decimal('weight')->nullable();
             $table->decimal('height')->nullable();
+            $table->boolean('is_cycle_start')->default(false);
             $table->timestamps();
         });
     }
