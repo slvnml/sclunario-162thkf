@@ -10,7 +10,6 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
-    public string $location = '';
 
     /**
      * Mount the component.
@@ -19,7 +18,6 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
-        $this->location = Auth::user()->location ?? '';
     }
 
     /**
@@ -32,7 +30,6 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'location' => ['nullable', 'string', 'max:255'],
         ]);
 
         $user->fill($validated);
@@ -105,12 +102,6 @@ new class extends Component
                     @endif
                 </div>
             @endif
-        </div>
-
-        <div>
-            <x-input-label for="location" :value="__('Location')" />
-            <x-text-input wire:model="location" id="location" name="location" type="text" class="mt-1 block w-full" autocomplete="location" />
-            <x-input-error class="mt-2" :messages="$errors->get('location')" />
         </div>
 
         <div class="flex items-center gap-4">
