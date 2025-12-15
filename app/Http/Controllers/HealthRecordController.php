@@ -18,6 +18,13 @@ class HealthRecordController extends Controller
         $chartData = $this->prepareChartData($healthRecords);
         $averageCycle = $this->calculateAverageCycle($healthRecords);
 
+        $irregularCycle = false;
+        if (is_numeric($averageCycle)) {
+            if ($averageCycle < 24 || $averageCycle > 32) {
+                $irregularCycle = true;
+            }
+        }
+
         $lastCycleStartDate = null;
         $lastPeriodEndDate = null;
         $nextPeriodStartDate = null;
@@ -26,8 +33,13 @@ class HealthRecordController extends Controller
 
         if ($lastCycleStartDateRecord) {
             $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
-            $lastPeriodEndDate = $lastCycleStartDate->copy()->addDays(4);
-            $nextPeriodStartDate = $lastPeriodEndDate->copy()->addDays(28);
+            $lastPeriodEndDate = $lastCycleStartDate->copy()->addDays(4); // Assuming a 5-day period, so the last day is start + 4
+            if (is_numeric($averageCycle)) {
+                $nextPeriodStartDate = $lastCycleStartDate->copy()->addDays($averageCycle);
+            } else {
+                // Fallback to a default 28-day cycle if not enough data
+                $nextPeriodStartDate = $lastCycleStartDate->copy()->addDays(28);
+            }
         }
 
         return view('health-records.index', compact(
@@ -36,7 +48,8 @@ class HealthRecordController extends Controller
             'averageCycle',
             'lastCycleStartDate',
             'lastPeriodEndDate',
-            'nextPeriodStartDate'
+            'nextPeriodStartDate',
+            'irregularCycle'
         ));
     }
 
@@ -45,21 +58,7 @@ class HealthRecordController extends Controller
      */
     public function create()
     {
-        $lastCycleStartDateRecord = HealthRecord::where('user_id', Auth::id())
-            ->where('is_cycle_start', true)
-            ->orderBy('date', 'desc')
-            ->first();
-
-        $can_start_new_cycle = true;
-        if ($lastCycleStartDateRecord) {
-            $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
-            // A new cycle can't be started if the last one was within the last 5 days.
-            if ($lastCycleStartDate->diffInDays(Carbon::now()) <= 4) {
-                $can_start_new_cycle = false;
-            }
-        }
-
-        return view('health-records.create', compact('can_start_new_cycle'));
+        return view('health-records.create', ['can_start_new_cycle' => true]);
     }
 
     /**
@@ -72,7 +71,22 @@ class HealthRecordController extends Controller
             'mood' => 'required',
             'weight' => 'nullable|numeric',
             'height' => 'nullable|numeric',
-            'is_cycle_start' => 'sometimes|boolean',
+            'is_cycle_start' => ['sometimes', 'boolean', function ($attribute, $value, $fail) use ($request) {
+                if ($value) {
+                    $newDate = Carbon::parse($request->date);
+                    $fiveDaysBefore = $newDate->copy()->subDays(4)->toDateString();
+                    $fiveDaysAfter = $newDate->copy()->addDays(4)->toDateString();
+
+                    $conflictingCycle = HealthRecord::where('user_id', Auth::id())
+                        ->where('is_cycle_start', true)
+                        ->whereBetween('date', [$fiveDaysBefore, $fiveDaysAfter])
+                        ->exists();
+
+                    if ($conflictingCycle) {
+                        $fail('A new cycle cannot be started within 5 days of an existing one.');
+                    }
+                }
+            }],
         ]);
 
         $data = $request->all();
@@ -107,7 +121,7 @@ class HealthRecordController extends Controller
             abort(403);
         }
 
-        return view('health-records.edit', compact('healthRecord'));
+        return view('health-records.edit', compact('healthRecord') + ['can_start_new_cycle' => true]);
     }
 
     /**
@@ -125,7 +139,23 @@ class HealthRecordController extends Controller
             'mood' => 'required',
             'weight' => 'nullable|numeric',
             'height' => 'nullable|numeric',
-            'is_cycle_start' => 'sometimes|boolean',
+            'is_cycle_start' => ['sometimes', 'boolean', function ($attribute, $value, $fail) use ($request, $healthRecord) {
+                if ($value) {
+                    $newDate = Carbon::parse($request->date);
+                    $fiveDaysBefore = $newDate->copy()->subDays(4)->toDateString();
+                    $fiveDaysAfter = $newDate->copy()->addDays(4)->toDateString();
+
+                    $conflictingCycle = HealthRecord::where('user_id', Auth::id())
+                        ->where('is_cycle_start', true)
+                        ->where('id', '!=', $healthRecord->id)
+                        ->whereBetween('date', [$fiveDaysBefore, $fiveDaysAfter])
+                        ->exists();
+
+                    if ($conflictingCycle) {
+                        $fail('A new cycle cannot be started within 5 days of an existing one.');
+                    }
+                }
+            }],
         ]);
 
         $healthRecord->update($request->all());
@@ -186,8 +216,14 @@ class HealthRecordController extends Controller
         $lastCycleStartDateRecord = $healthRecords->where('is_cycle_start', true)->sortByDesc('date')->first();
         if ($lastCycleStartDateRecord) {
             $lastCycleStartDate = Carbon::parse($lastCycleStartDateRecord->date);
-            $lastPeriodEndDate = $lastCycleStartDate->copy()->addDays(4);
-            $predictedNextStartDate = $lastPeriodEndDate->copy()->addDays(28);
+            $averageCycle = $this->calculateAverageCycle($healthRecords);
+            $predictedNextStartDate = null;
+            if (is_numeric($averageCycle)) {
+                $predictedNextStartDate = $lastCycleStartDate->copy()->addDays($averageCycle);
+            } else {
+                 $predictedNextStartDate = $lastCycleStartDate->copy()->addDays(28);
+            }
+
 
             for ($i = 0; $i < 5; $i++) {
                 $predictedDate = $predictedNextStartDate->copy()->addDays($i);
@@ -236,8 +272,7 @@ class HealthRecordController extends Controller
 
         $cycleLengths = [];
         for ($i = 0; $i < $cycleStartDates->count() - 1; $i++) {
-            $previousPeriodEndDate = $cycleStartDates[$i]->copy()->addDays(4);
-            $cycleLengths[] = $previousPeriodEndDate->diffInDays($cycleStartDates[$i+1]);
+            $cycleLengths[] = $cycleStartDates[$i]->diffInDays($cycleStartDates[$i+1]);
         }
 
         return round(collect($cycleLengths)->avg());

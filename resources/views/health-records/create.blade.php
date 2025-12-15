@@ -17,6 +17,7 @@
                             <div>
                                 <label for="date" class="block text-lg font-medium text-gray-700">Date</label>
                                 <input type="date" name="date" id="date" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
+                                <x-input-error :messages="$errors->get('date')" class="mt-2" />
                             </div>
 
                             <!-- Mood -->
@@ -30,18 +31,21 @@
                                     <option value="Energetic">Energetic</option>
                                     <option value="Fatigued">Fatigued</option>
                                 </select>
+                                <x-input-error :messages="$errors->get('mood')" class="mt-2" />
                             </div>
 
                             <!-- Weight -->
                             <div>
                                 <label for="weight" class="block text-lg font-medium text-gray-700">Weight (kg)</label>
                                 <input type="number" name="weight" id="weight" step="0.1" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., 55.5">
+                                <x-input-error :messages="$errors->get('weight')" class="mt-2" />
                             </div>
 
                             <!-- Height -->
                             <div>
                                 <label for="height" class="block text-lg font-medium text-gray-700">Height (cm)</label>
                                 <input type="number" name="height" id="height" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., 160">
+                                <x-input-error :messages="$errors->get('height')" class="mt-2" />
                             </div>
 
                             <!-- Is Cycle Start -->
@@ -53,6 +57,7 @@
                                             Mark this as the start of a new menstrual cycle
                                         </label>
                                     </div>
+                                    <x-input-error :messages="$errors->get('is_cycle_start')" class="mt-2" />
                                 </div>
                             @endif
                         </div>
