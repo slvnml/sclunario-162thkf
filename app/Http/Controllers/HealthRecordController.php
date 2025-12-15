@@ -42,6 +42,16 @@ class HealthRecordController extends Controller
             }
         }
 
+        $abnormalWeightFluctuation = false;
+        $recordsWithWeight = $healthRecords->whereNotNull('weight')->values();
+        if ($recordsWithWeight->count() >= 2) {
+            $latestWeight = $recordsWithWeight[0]->weight;
+            $previousWeight = $recordsWithWeight[1]->weight;
+            if (abs($latestWeight - $previousWeight) >= 10) {
+                $abnormalWeightFluctuation = true;
+            }
+        }
+
         return view('health-records.index', compact(
             'healthRecords', 
             'chartData', 
@@ -49,7 +59,8 @@ class HealthRecordController extends Controller
             'lastCycleStartDate',
             'lastPeriodEndDate',
             'nextPeriodStartDate',
-            'irregularCycle'
+            'irregularCycle',
+            'abnormalWeightFluctuation'
         ));
     }
 
