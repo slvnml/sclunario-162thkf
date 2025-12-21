@@ -169,7 +169,10 @@ class HealthRecordController extends Controller
             }],
         ]);
 
-        $healthRecord->update($request->all());
+        $data = $request->all();
+        $data['is_cycle_start'] = $request->has('is_cycle_start');
+
+        $healthRecord->update($data);
 
         return redirect()->route('health-records.index')
             ->with('success', 'Health record updated successfully.');

@@ -17,7 +17,7 @@
                             <!-- Date -->
                             <div>
                                 <label for="date" class="block text-lg font-medium text-gray-700">Date</label>
-                                <input type="date" name="date" id="date" value="{{ $healthRecord->date }}" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
+                                <input type="date" name="date" id="date" value="{{ $healthRecord->date->format('Y-m-d') }}" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg" required>
                             </div>
 
                             <!-- Mood -->
@@ -42,6 +42,16 @@
                             <div>
                                 <label for="height" class="block text-lg font-medium text-gray-700">Height (cm)</label>
                                 <input type="number" name="height" id="height" value="{{ $healthRecord->height }}" class="mt-1 block w-full p-3 border border-ray-300 rounded-lg" placeholder="e.g., 160">
+                            </div>
+
+                            <!-- Is Cycle Start -->
+                            <div class="col-span-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="is_cycle_start" id="is_cycle_start" value="1" {{ $healthRecord->is_cycle_start ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label for="is_cycle_start" class="ml-2 block text-sm text-gray-900">
+                                        Mark this as the start of a new menstrual cycle
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
