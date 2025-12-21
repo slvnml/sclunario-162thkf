@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'welcome');
 
+Route::get('/dashboard', function () {
+    return redirect('health-records');
+})->name('dashboard');
+
 // Registration and Login Routes
 Route::get('register', function() {
     if(Auth::check()){

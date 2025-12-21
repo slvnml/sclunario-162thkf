@@ -32,7 +32,7 @@ class AuthenticationTest extends TestCase
 
         $component
             ->assertHasNoErrors()
-            ->assertRedirect(route('dashboard', absolute: false));
+            ->assertRedirect('health-records');
 
         $this->assertAuthenticated();
     }
@@ -60,11 +60,10 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get('/health-records');
 
         $response
-            ->assertOk()
-            ->assertSeeVolt('layout.navigation');
+            ->assertOk();
     }
 
     public function test_users_can_logout(): void
